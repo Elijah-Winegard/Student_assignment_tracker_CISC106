@@ -3,6 +3,19 @@ from drafter import *
 from dataclasses import dataclass
 from datetime import datetime #from ChatGPT
 
+set_website_title("Student Assignment Tracker")
+set_site_information(
+    author="Elijah Winegard",
+    description="Tracks student assignments",
+    sources="Thanks to the Drafter docs and my study group.",
+    planning=["plan.pdf", "design.pdf"],
+    links=["https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106"]
+)
+hide_debug_information()
+set_website_framed(False)
+
+
+
 
 # Stores information about one assignment
 @dataclass
@@ -295,4 +308,3 @@ def mark_completed(state: State, assignment_index: int) -> Page:
 
 # START THE WEBSITE
 start_server(State([], "", "", "", ""))
-
