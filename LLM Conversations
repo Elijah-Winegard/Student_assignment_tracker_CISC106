@@ -1,1 +1,297 @@
+Convo 1
+
+ME:
+im writing code for my CS final im writing a assignment tracker for students. One of my pages is an upcoming assignents page. this currently just goes thru and displays uncompleted assignments i want it to display them by closest due day first. help me add a sorting system below is my code: def upcoming_assignments(state: State) -> Page:
+    content = [
+        Header("Upcoming Assignments")
+    ]
+
+    found_assignment = False
+
+    for index in range(len(state.assignments)):
+        assignment = state.assignments[index]
+
+        if assignment.completed == False:
+            found_assignment = True
+
+            content.append("\nAssignment: " + assignment.name)
+            content.append("Class: " + assignment.course)
+            content.append("Due Date: " + assignment.due_date)
+
+            content.append(
+                Button(
+                    "Mark Completed",
+                    "mark_completed",
+                    [Argument("assignment_index", index)]
+                )
+            )
+
+    if found_assignment == False:
+        content.append("You have no incomplete assignments.")
+
+    content.append("\n")
+    content.append(Button("Home", "index"))
+
+    return Page(state, content)
+AI:
+Your current code already identifies incomplete assignments. We need to add a sorting step before the for loop displays them.
+Step 1. Understand the sorting process
+We want your program to:
+Look through all assignments.
+Ignore completed assignments.
+Compare the due dates of incomplete assignments.
+Put the closest due date first.
+Display assignments in the new order.
+One important detail: We need to preserve each assignment's original index so your Mark Completed button still works.
+Step 2. One question before we write the code
+How are your due dates currently stored?
+For example:
+11/15/2026 (MM/DD/YYYY)
+2026-11-15 (YYYY-MM-DD)
+Something else?
+This determines the simplest sorting method. I want to keep the solution within the Python concepts you've learned in class.
+ME:
+its currently sorted (MM/DD/YYYY)
+AI:
+Perfect. Since your dates use MM/DD/YYYY, we need to account for the month, day, and year when sorting.
+For example, sorting alphabetically would produce incorrect results because Python treats the dates as strings.
+I recommend using Python's built-in datetime module. This keeps the code simple.
+Step 1. Add this import at the top of your file:
+from datetime import datetime
+Step 2. Create a list of incomplete assignments with their original indexes.
+Add this below found_assignment = False:
+    upcoming = []
+
+    for index in range(len(state.assignments)):
+        assignment = state.assignments[index]
+
+        if assignment.completed == False:
+            upcoming.append((index, assignment))
+Step 3. Sort the list.
+Add this directly below the new loop:
+    upcoming.sort(
+        key=lambda item: datetime.strptime(item[1].due_date, "%m/%d/%Y")
+    )
+This sorts assignments from earliest due date to latest due date.
+Step 4. Display the sorted assignments.
+Replace your original for loop with:
+    for index, assignment in upcoming:
+        found_assignment = True
+
+        content.append("\nAssignment: " + assignment.name)
+        content.append("Class: " + assignment.course)
+        content.append("Due Date: " + assignment.due_date)
+
+        content.append(
+            Button(
+                "Mark Completed",
+                "mark_completed",
+                [Argument("assignment_index", index)]
+            )
+        )
+How the sorting works:
+upcoming stores incomplete assignments.
+index preserves the assignment's original position.
+datetime.strptime() converts your date into a format Python understands.
+.sort() puts the earliest date first.
+Your completion button still uses the correct original index.
+One thing to remember: Your original if found_assignment == False section stays exactly where it was, below the new display loop.
+
+Convo 2
+me: i recieved this error
+Unusable Value
+The TextBox name must be a valid Python identifier name. A string is considered a valid identifier if it only contains alphanumeric letters (a-z) and (0-9), or underscores (_). A valid identifier cannot start with a number, or contain any spaces.
+request.route_execution_failed: Error while processing request for URL 'add_assignment': Invalid TextBox name: the name `assignment_due_date (MM/DD/YEAR)` has a space, which is not allowed. 
+What To Try Next
+Use only letters, digits, and underscores in the name.
+Start the name with a letter or an underscore, not a digit.
+Replace any spaces in the name with underscores.
+Navigation Options:
+Return to Index Page
+Reset State and Return to Index
+Reload Entire Application
+Submit a Bug Report
+Technical Details
+Error ID
+request.route_execution_failed
+Message
+Error while processing request for URL 'add_assignment': Invalid TextBox name: the name `assignment_due_date (MM/DD/YEAR)` has a space, which is not allowed.         
+Route Call
+add_assignment(State(assignments=[], assignment_name='', assignment_course='', assignment_due_date='', filter_course=''))         
+Status
+error
+Severity
+error
+Category
+request
+Recoverable
+yes
+Request
+Show details
+
+
+id
+6
+action
+back
+url
+add_assignment
+kwargs
+
+
+
+
+--submit-button
+&quot;Add Assignment#drafter-component-32254896&quot;
+
+
+event
+{}
+dom_id
+
+
+button_pressed
+
+
+raw_payload
+[]
+Traceback
+
+
+
+Read from the bottom up: the last line names the error, and the nearest “your code” entry above it shows where to look.
+Traceback (most recent call last):
+File /lib/python3.14/site-packages/drafter/client_server/client_server.py , line 523 , in execute_route
+return route_func(*args, **kwargs), representation        ~~~~~~~~~~^^^^^^^^^^^^^^^^^             
+File unsaved_thonny_script.py , line 51 , in add_assignment your code
+TextBox("assignment_due_date (MM/DD/YEAR)", state.assignment_due_date), ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^             
+File /lib/python3.14/site-packages/drafter/components/forms.py , line 155 , in __init__
+validate_parameter_name(name, "TextBox") ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^             
+File /lib/python3.14/site-packages/drafter/components/utilities/validation.py , line 64 , in validate_parameter_name
+raise _invalid_name(     component_type, f"the name `{name}` has a space, which is not allowed." )             
+drafter.data.errors.StudentFacingError: Invalid TextBox name: the name `assignment_due_date (MM/DD/YEAR)` has a space, which is not allowed.   when clicking my add assignment button def add_assignment(state: State) -> Page:&#xA;    return Page(state, [&#xA;        Header("Add a New Assignment"),&#xA;        "Assignment Name:",&#xA;        TextBox("assignment_name", state.assignment_name),&#xA;        "\nClass:",&#xA;        TextBox("assignment_course", state.assignment_course),&#xA;        "\nDue Date:",&#xA;        TextBox("assignment_due_date (MM/DD/YEAR)", state.assignment_due_date),&#xA;        "\n",&#xA;        Button("Save Assignment", "submit_assignment"),&#xA;        Button("Home", "index")&#xA;    ]) can you help me debugg it
+
+AI: 
+The error comes from this line:
+TextBox("assignment_due_date (MM/DD/YEAR)", state.assignment_due_date),
+Drafter uses the first argument of TextBox() as a Python variable name. Python identifiers cannot contain spaces, parentheses, or slashes.
+1. Fix the TextBox name
+Change the line to:
+TextBox("assignment_due_date", state.assignment_due_date),
+2. Display the date format separately
+You already have a label for the due date. Add the format as regular text:
+"\nDue Date (MM/DD/YYYY):",
+TextBox("assignment_due_date", state.assignment_due_date),
+3. Your corrected route
+
+@route
+def add_assignment(state: State) -> Page:
+    return Page(state, [
+        Header("Add a New Assignment"),
+        "Assignment Name:",
+        TextBox("assignment_name", state.assignment_name),
+        "\nClass:",
+        TextBox("assignment_course", state.assignment_course),
+        "\nDue Date (MM/DD/YYYY):",
+        TextBox("assignment_due_date", state.assignment_due_date),
+        "\n",
+        Button("Save Assignment", "submit_assignment"),
+        Button("Home", "index")
+    ])
+4. Why this works
+Component
+Purpose
+"assignment_due_date"
+Valid Python identifier
+state.assignment_due_date
+Stores the entered date
+"Due Date (MM/DD/YYYY):"
+Displays instructions to the user
+
+Your State variable is already named assignment_due_date, so the corrected TextBox name matches your existing variable.
+Expected result
+Your Add Assignment page should now load without the invalid TextBox name error.
+One more thing: Your upcoming assignments page uses datetime.strptime() with %m/%d/%Y. Make sure users enter dates in this format so your sorting works correctly.
+
+covno 3
+Me:
+i want my add assignment code to clear after i click the button on my website to add the assignment below is the code: # SAVES THE NEW ASSIGNMENT
+@route
+def submit_assignment(state: State, assignment_name: str,
+                      assignment_course: str,
+                      assignment_due_date: str) -> Page:
+
+    state.assignment_name = assignment_name
+    state.assignment_course = assignment_course
+    state.assignment_due_date = assignment_due_date
+
+    if assignment_name != "" and assignment_course != "" and assignment_due_date != "":
+        new_assignment = Assignment(
+            assignment_name,
+            assignment_course,
+            assignment_due_date,
+            False
+        )
+
+        state.assignments.append(new_assignment)
+
+        return all_assignments(state)
+
+    else:
+        return Page(state, [
+            Header("Missing Information"),
+            "Please fill in all three fields.",
+            Button("Go Back", "add_assignment"),
+            Button("Home", "index")
+        ])
+
+
+AI:
+You need to clear the three State variables after adding the assignment to state.assignments.
+Currently, your code saves the assignment and sends the user to all_assignments(state). You can reset the text boxes by setting the variables to empty strings before returning.
+Updated submit_assignment code
+
+# SAVES THE NEW ASSIGNMENT
+@route
+def submit_assignment(state: State, assignment_name: str,
+                      assignment_course: str,
+                      assignment_due_date: str) -> Page:
+
+    state.assignment_name = assignment_name
+    state.assignment_course = assignment_course
+    state.assignment_due_date = assignment_due_date
+
+    if assignment_name != "" and assignment_course != "" and assignment_due_date != "":
+        new_assignment = Assignment(
+            assignment_name,
+            assignment_course,
+            assignment_due_date,
+            False
+        )
+
+        state.assignments.append(new_assignment)
+
+        # Clear the text boxes after saving.
+        state.assignment_name = ""
+        state.assignment_course = ""
+        state.assignment_due_date = ""
+
+        return all_assignments(state)
+
+    else:
+        return Page(state, [
+            Header("Missing Information"),
+            "Please fill in all three fields.",
+            Button("Go Back", "add_assignment"),
+            Button("Home", "index")
+        ])
+What changed?
+I added these three lines after state.assignments.append(new_assignment):
+state.assignment_name = ""
+state.assignment_course = ""
+state.assignment_due_date = ""
+Your assignment stays saved in state.assignments. Only the input variables reset.
+One important detail: Your current code returns all_assignments(state), so the user will see the assignments list after saving. The next time they open Add Assignment, the three text boxes will be blank.
+
+
 
