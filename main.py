@@ -372,25 +372,25 @@ def mark_completed(state: State, assignment_index: int) -> Page:
 def test_is_valid_due_date():
     """Tests valid and invalid assignment due dates."""
 
-    assert_equals(is_valid_due_date("11/20/2026"), True)
-    assert_equals(is_valid_due_date("02/15/2026"), True)
-    assert_equals(is_valid_due_date("15/40/2026"), False)
-    assert_equals(is_valid_due_date("November 20, 2026"), False)
-    assert_equals(is_valid_due_date("11/20/26"), False)
+    assert_equal(is_valid_due_date("11/20/2026"), True)
+    assert_equal(is_valid_due_date("02/15/2026"), True)
+    assert_equal(is_valid_due_date("15/40/2026"), False)
+    assert_equal(is_valid_due_date("November 20, 2026"), False)
+    assert_equal(is_valid_due_date("11/20/26"), False)
 
 
 def test_index():
     """Tests that the home page returns a Page."""
 
     state = State([], "", "", "", "")
-    assert_equals(isinstance(index(state), Page), True)
+    assert_equal(isinstance(index(state), Page), True)
 
 
 def test_add_assignment():
     """Tests that the add assignment page returns a Page."""
 
     state = State([], "", "", "", "")
-    assert_equals(isinstance(add_assignment(state), Page), True)
+    assert_equal(isinstance(add_assignment(state), Page), True)
 
 
 def test_submit_assignment():
@@ -402,11 +402,11 @@ def test_submit_assignment():
         state, "Math Homework", "Math", "11/20/2026"
     )
 
-    assert_equals(len(state.assignments), 1)
-    assert_equals(state.assignments[0].name, "Math Homework")
-    assert_equals(state.assignments[0].course, "Math")
-    assert_equals(state.assignments[0].completed, False)
-    assert_equals(state.assignment_name, "")
+    assert_equal(len(state.assignments), 1)
+    assert_equal(state.assignments[0].name, "Math Homework")
+    assert_equal(state.assignments[0].course, "Math")
+    assert_equal(state.assignments[0].completed, False)
+    assert_equal(state.assignment_name, "")
 
 
 def test_submit_invalid_assignment():
@@ -418,35 +418,35 @@ def test_submit_invalid_assignment():
         state, "Math Homework", "Math", "15/40/2026"
     )
 
-    assert_equals(len(state.assignments), 0)
+    assert_equal(len(state.assignments), 0)
 
 
 def test_all_assignments():
     """Tests that the all assignments page returns a Page."""
 
     state = State([], "", "", "", "")
-    assert_equals(isinstance(all_assignments(state), Page), True)
+    assert_equal(isinstance(all_assignments(state), Page), True)
 
 
 def test_upcoming_assignments():
     """Tests that the upcoming assignments page returns a Page."""
 
     state = State([], "", "", "", "")
-    assert_equals(isinstance(upcoming_assignments(state), Page), True)
+    assert_equal(isinstance(upcoming_assignments(state), Page), True)
 
 
 def test_completed_assignments():
     """Tests that the completed assignments page returns a Page."""
 
     state = State([], "", "", "", "")
-    assert_equals(isinstance(completed_assignments(state), Page), True)
+    assert_equal(isinstance(completed_assignments(state), Page), True)
 
 
 def test_classes():
     """Tests that the classes page returns a Page."""
 
     state = State([], "", "", "", "")
-    assert_equals(isinstance(classes(state), Page), True)
+    assert_equal(isinstance(classes(state), Page), True)
 
 
 def test_filter_by_class():
@@ -456,7 +456,7 @@ def test_filter_by_class():
 
     filter_by_class(state, "Math")
 
-    assert_equals(state.filter_course, "Math")
+    assert_equal(state.filter_course, "Math")
 
 
 def test_mark_completed():
@@ -470,7 +470,7 @@ def test_mark_completed():
 
     mark_completed(state, 0)
 
-    assert_equals(state.assignments[0].completed, True)
+    assert_equal(state.assignments[0].completed, True)
 
 
 def test_invalid_assignment_index():
@@ -484,7 +484,7 @@ def test_invalid_assignment_index():
 
     mark_completed(state, 10)
 
-    assert_equals(state.assignments[0].completed, False)
+    assert_equal(state.assignments[0].completed, False)
 
 
 def test_assignment_sorting():
@@ -508,9 +508,9 @@ def test_assignment_sorting():
         )
     )
 
-    assert_equals(upcoming[0][1].name, "Math")
-    assert_equals(upcoming[1][1].name, "Science")
-    assert_equals(upcoming[2][1].name, "History")
+    assert_equal(upcoming[0][1].name, "Math")
+    assert_equal(upcoming[1][1].name, "Science")
+    assert_equal(upcoming[2][1].name, "History")
 
 
 # RUN UNIT TESTS
