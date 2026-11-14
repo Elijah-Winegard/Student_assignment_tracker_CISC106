@@ -1,7 +1,8 @@
 
 from drafter import *
 from dataclasses import dataclass
-from datetime import datetime #from ChatGPT
+from datetime import datetime
+from typing import Any
 
 set_website_title("Student Assignment Tracker")
 set_site_information(
@@ -13,8 +14,6 @@ set_site_information(
 )
 hide_debug_information()
 set_website_framed(False)
-
-
 
 
 # Stores information about one assignment
@@ -68,9 +67,6 @@ def add_assignment(state: State) -> Page:
     ])
 
 
-
-# SAVES THE NEW ASSIGNMENT
-
 # SAVES THE NEW ASSIGNMENT
 @route
 def submit_assignment(state: State, assignment_name: str,
@@ -107,11 +103,10 @@ def submit_assignment(state: State, assignment_name: str,
         ])
 
 
-
 # DISPLAYS ALL ASSIGNMENTS
 @route
 def all_assignments(state: State) -> Page:
-    content = [
+    content: list[Any] = [
         Header("All Assignments")
     ]
 
@@ -135,7 +130,7 @@ def all_assignments(state: State) -> Page:
                     Button(
                         "Mark Completed",
                         "mark_completed",
-                        [Argument("assignment_index", index)]
+                        [("assignment_index", index)]
                     )
                 )
 
@@ -146,10 +141,10 @@ def all_assignments(state: State) -> Page:
 
 
 # DISPLAYS INCOMPLETE ASSIGNMENTS
-# coded with AI see AI conversations in Github
+# Coded with AI. See AI conversations in GitHub.
 @route
 def upcoming_assignments(state: State) -> Page:
-    content = [
+    content: list[Any] = [
         Header("Upcoming Assignments")
     ]
 
@@ -163,15 +158,9 @@ def upcoming_assignments(state: State) -> Page:
         if assignment.completed == False:
             upcoming.append((index, assignment))
 
-    #Sorts the upcoming assignments by due date, putting the earlies due date first.
-    #The lambda function takes each item in the list,
-    #accesses the assignment's due_date, and converts the date from
-    #MM/DD/YYYY into a format Python uses to compare dates."""
-    # item represents one assignment in the upcoming list.
-    # item[1] accesses the assignment, since item[0] stores its original index.
-    # .due_date accesses the assignment's due date.
-    # datetime.strptime() converts the date into a format Python understands.
-    # sort() uses the dates to display the closest due date first.
+    # Sorts upcoming assignments by due date, putting the earliest date first.
+    # The lambda function accesses each assignment's due date.
+    # datetime.strptime() converts the date into a format Python can compare.
     upcoming.sort(
         key=lambda item: datetime.strptime(item[1].due_date, "%m/%d/%Y")
     )
@@ -187,7 +176,7 @@ def upcoming_assignments(state: State) -> Page:
             Button(
                 "Mark Completed",
                 "mark_completed",
-                [Argument("assignment_index", index)]
+                [("assignment_index", index)]
             )
         )
 
@@ -203,7 +192,7 @@ def upcoming_assignments(state: State) -> Page:
 # DISPLAYS COMPLETED ASSIGNMENTS
 @route
 def completed_assignments(state: State) -> Page:
-    content = [
+    content: list[Any] = [
         Header("Completed Assignments")
     ]
 
@@ -228,10 +217,9 @@ def completed_assignments(state: State) -> Page:
 
 
 # PAGE FOR CHOOSING A CLASS
-
 @route
 def classes(state: State) -> Page:
-    content = [
+    content: list[Any] = [
         Header("Filter Assignments by Class")
     ]
 
@@ -262,12 +250,13 @@ def classes(state: State) -> Page:
 
     return Page(state, content)
 
+
 # DISPLAYS ASSIGNMENTS FROM THE SELECTED CLASS
 @route
 def filter_by_class(state: State, course: str) -> Page:
     state.filter_course = course
 
-    content = [
+    content: list[Any] = [
         Header("Assignments for " + state.filter_course)
     ]
 
