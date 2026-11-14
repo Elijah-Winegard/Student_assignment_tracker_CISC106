@@ -130,7 +130,7 @@ def all_assignments(state: State) -> Page:
                     Button(
                         "Mark Completed",
                         "mark_completed",
-                        [("assignment_index", index)]
+                        [("assignment_index", int(index))]
                     )
                 )
 
@@ -176,7 +176,7 @@ def upcoming_assignments(state: State) -> Page:
             Button(
                 "Mark Completed",
                 "mark_completed",
-                [("assignment_index", index)]
+                [("assignment_index", int(index))]
             )
         )
 
