@@ -295,3 +295,331 @@ One important detail: Your current code returns all_assignments(state), so the u
 
 
 
+
+github debugging convo 3
+
+me: 
+im having these errors with my githup repository Annotations
+
+4 errors, 3 warnings, and 2 notices
+
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507537575#step:10:75) | Process completed with exit code 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507814476#step:2:31) | Error: Failed to create deployment (status: 404) with build version f98dc7600d19e360ce42dd4dd9804684f12e6ce0. Request ID 7800:15C12B:144A287:3F53B7D:6AF6308B Ensure GitHub Pages has been enabled: [https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/settings/pages](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/settings/pages)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507814476#step:2:25) | HttpError: Not Found at /home/runner/work/\_actions/actions/deploy-pages/v4/node_modules/@octokit/request/dist-node/index.js:124:1 at processTicksAndRejections (node:internal/process/task_queues:104:5) at createPagesDeployment (/home/runner/work/\_actions/actions/deploy-pages/v4/src/internal/api-client.js:125:1) at Deployment.create (/home/runner/work/\_actions/actions/deploy-pages/v4/src/internal/deployment.js:74:1) at main (/home/runner/work/\_actions/actions/deploy-pages/v4/src/index.js:30:1)                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507814476#step:2:24) | Creating Pages deployment failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507537575#step:29:2)  | Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: astral-sh/setup-uv@v6. For more information see: [https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507537575#step:3:45)  | No file matched to [/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*requirements\*.txt,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*requirements\*.in,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*constraints\*.txt,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*constraints\*.in,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/pyproject.toml,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/uv.lock,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*.py.lock]. The cache will never get invalidated. Make sure you have checked out the target repository and configured the cache-dependency-glob input correctly. |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507814476#step:3:4)  | Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/deploy-pages@v4. For more information see: [https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507537575)            | "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see [https://github.com/actions/runner-images/issues/14748](https://github.com/actions/runner-images/issues/14748)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43311227919/job/131507814476)           | "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see [https://github.com/actions/runner-images/issues/14748](https://github.com/actions/runner-images/issues/14748)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+AI
+
+1. Main error: GitHub Pages deployment failed
+Deployment error
+Your error says:
+
+Failed to create deployment (status: 404)
+
+GitHub is trying to publish your project, but Pages is either not enabled or is not configured to work with your deployment workflow.
+
+How to fix it:
+1. Open your repository: Student Assignment Tracker.
+2. Click Settings.
+3. Select Pages on the left.
+4. Find the Build and deployment section.
+5. Set Source to GitHub Actions.
+6. Save your changes.
+This should address the Pages configuration problem.
+2. Build error: Exit code 1
+Build error
+This is the other important problem.
+
+Your build process stopped before GitHub finished preparing your website.
+
+One clue is this message:
+
+No file matched to ... requirements.txt ... pyproject.toml ...
+
+Your workflow is looking for a Python dependency file, but it isn't finding one.
+
+For your Drafter assignment tracker, the workflow needs to install the Python packages your project uses.
+3. Missing requirements file
+Configuration warning
+Your repository currently shows these files:
+- .github/workflows
+- README.md
+- main.py
+There is no requirements.txt visible in the repository.
+
+I recommend adding a file named requirements.txt in the same folder as main.py.
+
+For a project using Drafter, start with:
+drafter
+
+
+This tells GitHub which Python package to install when building your project.
+4. Other warnings
+These are not the cause of your current failure:
+Warning	What it means
+Node.js 20 deprecated	GitHub is updating its runner environment.
+Ubuntu 26 migration	GitHub is changing its default operating system.
+Cache not found	Your workflow did not find a dependency file for caching.
+
+You do not need to fix these first.
+5. One more thing I noticed in your code
+I looked at your published main.py.
+
+Your project imports:
+- drafter
+- dataclasses
+- datetime
+Only Drafter needs an external package installation. dataclasses and datetime are included with Python.
+
+Your date-sorting code does not appear to require any additional packages. 
+GitHub
+
+What I need from you to finish fixing this
+There is one important detail missing. Your report shows the build failed at step 10, but it does not show the error message from that step.
+
+Open this link:
+View your failed build logs1. Scroll down to step 10.
+2. Expand the step.
+3. Copy the red error message.
+4. Paste it here.
+Also, send me the contents of your .github/workflows YAML file.
+
+I want to fix the actual problem rather than change working parts of your project unnecessarily. I'll keep the solution compatible with the introductory Python techniques used in your CISC106 final project.
+
+
+Me:
+## nnotations
+
+1 error, 2 warnings, and 1 notice
+
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43652652701/job/132624310944#step:10:75) | Process completed with exit code 1.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43652652701/job/132624310944#step:29:2)  | Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: astral-sh/setup-uv@v6. For more information see: [https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43652652701/job/132624310944#step:3:45)  | No file matched to [/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*requirements\*.txt,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*requirements\*.in,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*constraints\*.txt,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*constraints\*.in,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/pyproject.toml,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/uv.lock,/home/runner/work/Student_assignment_tracker_CISC106/Student_assignment_tracker_CISC106/\*\*/\*.py.lock]. The cache will never get invalidated. Make sure you have checked out the target repository and configured the cache-dependency-glob input correctly. |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43652652701/job/132624310944)            | "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see [https://github.com/actions/runner-images/issues/14748](https://github.com/actions/runner-images/issues/14748)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+
+&#x20;how do i fix these
+
+
+Ai:
+Your latest GitHub report is better. You no longer have the GitHub Pages deployment error.
+
+You now have one actual build failure and three notices or warnings.
+
+The important distinction is:
+
+- `exit code 1` means your build failed.
+- `No file matched` means GitHub did not find a dependency file for caching.
+- `Node.js 20 deprecated` is a warning, not a build failure.
+- `Ubuntu 26` is an informational notice.
+
+Let's fix these without changing your assignment tracker code unnecessarily.
+
+## **Step 1. Add requirements.txt**
+
+Your workflow is looking for a Python dependency file.
+
+In your GitHub repository:
+
+1. Open the main repository page.
+2. Click Add file.
+3. Select Create new file.
+4. Name the file `requirements.txt`.
+5. Put this inside:
+
+```
+drafter
+```
+
+6\. Commit the new file.
+
+Make sure `requirements.txt` sits in the same folder as `main.py`, not inside `.github` or another folder.
+
+This should resolve the missing dependency-file warning.
+
+## **Step 2. Find the actual error**
+
+I checked your latest GitHub Actions report.
+
+The failed step is specifically called:
+
+`Run type checker`
+
+This is important. Your Python code is failing a type-checking step, or the type checker is reporting a problem.
+
+Follow these steps:
+
+1. Open [your latest build log](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43652652701/job/132624310944?utm_source=chatgpt.com).
+2. Find `Run type checker`.
+3. Expand the step.
+4. Copy the error messages underneath it.
+5. Paste them here.
+
+I need those messages before recommending changes to your Python code.
+
+## **Step 3. Understand the remaining warnings**
+
+| Message                   | What to do                                   |
+| ------------------------- | -------------------------------------------- |
+| Missing requirements file | Add `requirements.txt` containing `drafter`. |
+| Node.js 20 deprecated     | Leave alone for now.                         |
+| Ubuntu 26 migration       | No action needed.                            |
+
+## **What I recommend**
+
+Let's fix your project in this order:
+
+1. Add `requirements.txt`.
+2. Identify and fix the type checker error.
+3. Run GitHub Actions again.
+4. Confirm your website deploys successfully.
+
+**One important thing:** Don't rewrite your `main.py` or change your assignment tracker functionality yet.
+
+Send me the expanded `Run type checker` error. I'll help you fix the specific lines causing the failure while keeping your code at the CISC106 level.
+
+Me
+Run set -o pipefail&#x20;
+main.py:119: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:125: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:126: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:127: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:130: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:133: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:135: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:138: error: Argument 3 to "Button" has incompatible type "list[Argument]"; expected "Arguable | list[Arguable] | list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] | dict[str, str | int | float | bool | list[Any] | dict[Any, Any] | None] | None"  [arg-type]&#x20;
+main.py:138: note: "list" is invariant -- see [https://mypy.readthedocs.io/en/stable/common_issues.html#variance](https://mypy.readthedocs.io/en/stable/common_issues.html#variance)&#x20;
+main.py:138: note: Consider using "Sequence" instead, which is covariant&#x20;
+main.py:142: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:143: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:182: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:183: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:184: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:187: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:190: error: Argument 3 to "Button" has incompatible type "list[Argument]"; expected "Arguable | list[Arguable] | list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] | dict[str, str | int | float | bool | list[Any] | dict[Any, Any] | None] | None"  [arg-type]&#x20;
+main.py:190: note: "list" is invariant -- see [https://mypy.readthedocs.io/en/stable/common_issues.html#variance](https://mypy.readthedocs.io/en/stable/common_issues.html#variance)&#x20;
+main.py:190: note: Consider using "Sequence" instead, which is covariant&#x20;
+main.py:195: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:197: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:198: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:217: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:218: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:219: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:222: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:224: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:225: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:248: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:256: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:257: error: Argument 1 to "append" of "list" has incompatible type "SelectBox"; expected "Header"  [arg-type]&#x20;
+main.py:258: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:260: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:261: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:281: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:282: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:285: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:287: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:290: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:292: error: Argument 1 to "append" of "list" has incompatible type "str"; expected "Header"  [arg-type]&#x20;
+main.py:293: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+main.py:294: error: Argument 1 to "append" of "list" has incompatible type "Button"; expected "Header"  [arg-type]&#x20;
+Found 38 errors in 1 file (checked 1 source file)
+AI:
+
+I can print the complete corrected `main.py`, but I need your latest source code first.
+
+Please upload your current `main.py` file here.
+
+I'll return the full corrected file with:
+
+1. All 38 type-checking errors addressed.
+2. Correct `content` list declarations.
+3. Corrected Button arguments.
+4. Your existing routes and features preserved.
+5. Your assignment sorting and filtering preserved.
+
+I won't change your working functionality or add advanced Python techniques.
+
+
+me: i have these errors Annotations
+
+1 error, 2 warnings, and 2 notices
+
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43653205598/job/132625984777#step:10:39) | Process completed with exit code 1.                                                                                                                                                                                                                                                                                                                      |
+| --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43653205598/job/132625984777#step:29:2)  | Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: astral-sh/setup-uv@v6. For more information see: [https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/)   |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43653205598/job/132626108728#step:3:4)  | Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/deploy-pages@v4. For more information see: [https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/) |
+| [**build**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43653205598/job/132625984777)            | "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see [https://github.com/actions/runner-images/issues/14748](https://github.com/actions/runner-images/issues/14748)"                                                                                                                                 |
+| [**deploy**](https://github.com/Elijah-Winegard/Student_assignment_tracker_CISC106/actions/runs/43653205598/job/132626108728)           | "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see [https://github.com/actions/runner-images/issues/14748](https://github.com/actions/runner-images/issues/14748)"                                                                                                                                 |
+
+AI:
+Your GitHub Actions report shows 1 build error and several warnings or notices.
+
+The important part is the build error:
+
+Process completed with exit code 1
+
+This means one of the build steps failed. The report does not show the underlying cause.
+
+The other messages are warnings:
+- Node.js 20 deprecation: GitHub is moving these actions to Node.js 24. This is not the cause of the build failure shown here.
+- Ubuntu 26 migration: GitHub is announcing a future runner change. This is not the cause either.
+I opened your GitHub Actions report. The failed step is:
+
+Failed
+ Run type checker
+
+This points to a Python type-checking error. The report does not reveal the specific code error because GitHub requires a sign-in to view the full logs. 
+GitHub
+
+
+Next step:
+1. Open the failed GitHub Actions run.
+2. Expand the Run type checker step.
+3. Copy the error messages shown in the log.
+4. Paste them here.
+I'll identify the exact lines to change and help fix the code while keeping your project at a CISC106 level.
+
+The Node.js and Ubuntu messages do not need attention right now.
+
+ME:
+
+Run set -o pipefail&#x20;
+main.py:133: error: Argument 3 to "Button" has incompatible type "list[tuple[str, int]]"; expected "Arguable | list[Arguable] | list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] | dict[str, str | int | float | bool | list[Any] | dict[Any, Any] | None] | None"  [arg-type]&#x20;
+main.py:133: note: "list" is invariant -- see [https://mypy.readthedocs.io/en/stable/common_issues.html#variance](https://mypy.readthedocs.io/en/stable/common_issues.html#variance)&#x20;
+main.py:133: note: Consider using "Sequence" instead, which is covariant&#x20;
+main.py:179: error: Argument 3 to "Button" has incompatible type "list[tuple[str, int]]"; expected "Arguable | list[Arguable] | list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] | dict[str, str | int | float | bool | list[Any] | dict[Any, Any] | None] | None"  [arg-type]&#x20;
+main.py:179: note: "list" is invariant -- see [https://mypy.readthedocs.io/en/stable/common_issues.html#variance](https://mypy.readthedocs.io/en/stable/common_issues.html#variance)&#x20;
+main.py:179: note: Consider using "Sequence" instead, which is covariant&#x20;
+Found 2 errors in 1 file (checked 1 source file)&#x20;
+**Error:&#x20;**&#x50;rocess completed with exit code 1.
+
+AI:
+
+The error is still the same because Python infers the tuple as `tuple[str, int]`. We need to give the entire list an explicit type.
+
+At line 133, replace the Button argument with this:
+
+```
+button_arguments: list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] = [    ("assignment_index", index)]Button("Mark Completed", "mark_completed", button_arguments)
+```
+
+Make the same change at line 179.
+
+Keep this import at the top:
+
+```
+from typing import Any
+```
+
+Why this works:
+
+- Python originally inferred a list containing only `tuple[str, int]`.
+- The explicit annotation tells mypy the second tuple value belongs to the wider set of accepted types.
+- Both Button calls now receive the expected list type.
+
+After saving, push the changes and rerun GitHub Actions.
