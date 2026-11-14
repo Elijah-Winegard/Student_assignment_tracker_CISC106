@@ -126,12 +126,20 @@ def all_assignments(state: State) -> Page:
 
             else:
                 content.append("Status: Incomplete")
+
+                # Creates a list of button arguments.
+                # The first value identifies the argument as assignment_index.
+                # The second value stores the assignment's position in the list.
+                # The type annotation tells Python which value types the list accepts.
+                button_arguments: list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] = [
+                    ("assignment_index", index)
+                ]
+
+                # Creates a button labeled "Mark Completed".
+                # When clicked, the button calls the mark_completed route.
+                # It passes the assignment's position so the correct assignment is updated.
                 content.append(
-                    Button(
-                        "Mark Completed",
-                        "mark_completed",
-                        [("assignment_index", int(index))]
-                    )
+                    Button("Mark Completed", "mark_completed", button_arguments)
                 )
 
     content.append("\n")
@@ -172,12 +180,19 @@ def upcoming_assignments(state: State) -> Page:
         content.append("Class: " + assignment.course)
         content.append("Due Date: " + assignment.due_date)
 
+        # Creates a list of button arguments.
+        # The first value identifies the argument as assignment_index.
+        # The second value stores the assignment's position in the list.
+        # The type annotation tells Python which value types the list accepts.
+        button_arguments: list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] = [
+            ("assignment_index", index)
+        ]
+
+        # Creates a button labeled "Mark Completed".
+        # When clicked, the button calls the mark_completed route.
+        # It passes the assignment's position so the correct assignment is updated.
         content.append(
-            Button(
-                "Mark Completed",
-                "mark_completed",
-                [("assignment_index", int(index))]
-            )
+            Button("Mark Completed", "mark_completed", button_arguments)
         )
 
     if found_assignment == False:
@@ -297,3 +312,4 @@ def mark_completed(state: State, assignment_index: int) -> Page:
 
 # START THE WEBSITE
 start_server(State([], "", "", "", ""))
+
