@@ -3,6 +3,8 @@ from drafter import *
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
+from bakery import assert_equals
+
 
 set_website_title("Student Assignment Tracker")
 set_site_information(
@@ -35,9 +37,31 @@ class State:
     filter_course: str
 
 
+# CHECKS WHETHER A DATE IS VALID
+
+def is_valid_due_date(due_date: str) -> bool:
+    """Checks whether a date follows the MM/DD/YYYY format."""
+
+    try:
+        # Converts the date string into a datetime object.
+        # This checks whether the entered date is a real calendar date.
+        parsed_date = datetime.strptime(due_date, "%m/%d/%Y")
+
+        # Converts the date back into a string.
+        # Checks whether the original date matches MM/DD/YYYY exactly.
+        return parsed_date.strftime("%m/%d/%Y") == due_date
+
+    except ValueError:
+        # Returns False if Python cannot convert the entered date.
+        return False
+
+
+
 # HOME PAGE
 @route
 def index(state: State) -> Page:
+    """Displays the home page and navigation buttons."""
+
     return Page(state, [
         Header("Student Assignment Tracker"),
         "Welcome! Keep track of your school assignments.",
@@ -53,6 +77,8 @@ def index(state: State) -> Page:
 # PAGE FOR ADDING AN ASSIGNMENT
 @route
 def add_assignment(state: State) -> Page:
+    """Displays the input fields for creating a new assignment."""
+
     return Page(state, [
         Header("Add a New Assignment"),
         "Assignment Name:",
@@ -72,29 +98,16 @@ def add_assignment(state: State) -> Page:
 def submit_assignment(state: State, assignment_name: str,
                       assignment_course: str,
                       assignment_due_date: str) -> Page:
+    """Checks the input and saves a new assignment."""
 
-    state.assignment_name = assignment_name
-    state.assignment_course = assignment_course
-    state.assignment_due_date = assignment_due_date
+    state.assignment_name = assignment_name.strip()
+    state.assignment_course = assignment_course.strip()
+    state.assignment_due_date = assignment_due_date.strip()
 
-    if assignment_name != "" and assignment_course != "" and assignment_due_date != "":
-        new_assignment = Assignment(
-            assignment_name,
-            assignment_course,
-            assignment_due_date,
-            False
-        )
+    if (state.assignment_name == ""
+            or state.assignment_course == ""
+            or state.assignment_due_date == ""):
 
-        state.assignments.append(new_assignment)
-
-        # Clear the text boxes after saving.
-        state.assignment_name = ""
-        state.assignment_course = ""
-        state.assignment_due_date = ""
-
-        return all_assignments(state)
-
-    else:
         return Page(state, [
             Header("Missing Information"),
             "Please fill in all three fields.",
@@ -102,10 +115,38 @@ def submit_assignment(state: State, assignment_name: str,
             Button("Home", "index")
         ])
 
+    if not is_valid_due_date(state.assignment_due_date):
+
+        return Page(state, [
+            Header("Invalid Date"),
+            "Please enter a valid date using MM/DD/YYYY.",
+            "Example: 11/25/2026",
+            Button("Go Back", "add_assignment"),
+            Button("Home", "index")
+        ])
+
+    new_assignment = Assignment(
+        state.assignment_name,
+        state.assignment_course,
+        state.assignment_due_date,
+        False
+    )
+
+    state.assignments.append(new_assignment)
+
+    # Clear the text boxes after saving.
+    state.assignment_name = ""
+    state.assignment_course = ""
+    state.assignment_due_date = ""
+
+    return all_assignments(state)
+
 
 # DISPLAYS ALL ASSIGNMENTS
 @route
 def all_assignments(state: State) -> Page:
+    """Displays every assignment and its completion status."""
+
     content: list[Any] = [
         Header("All Assignments")
     ]
@@ -128,18 +169,22 @@ def all_assignments(state: State) -> Page:
                 content.append("Status: Incomplete")
 
                 # Creates a list of button arguments.
-                # The first value identifies the argument as assignment_index.
-                # The second value stores the assignment's position in the list.
-                # The type annotation tells Python which value types the list accepts.
-                button_arguments: list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] = [
+                # The first value identifies the argument name.
+                # The second value stores the assignment's list position.
+                button_arguments: list[tuple[
+                    str,
+                    str | int | float | bool | list[Any] | dict[Any, Any] | None
+                ]] = [
                     ("assignment_index", index)
                 ]
 
-                # Creates a button labeled "Mark Completed".
-                # When clicked, the button calls the mark_completed route.
-                # It passes the assignment's position so the correct assignment is updated.
+                # Passes the assignment position to mark_completed.
                 content.append(
-                    Button("Mark Completed", "mark_completed", button_arguments)
+                    Button(
+                        "Mark Completed",
+                        "mark_completed",
+                        button_arguments
+                    )
                 )
 
     content.append("\n")
@@ -152,13 +197,15 @@ def all_assignments(state: State) -> Page:
 # Coded with AI. See AI conversations in GitHub.
 @route
 def upcoming_assignments(state: State) -> Page:
+    """Displays incomplete assignments sorted by their due dates."""
+
     content: list[Any] = [
         Header("Upcoming Assignments")
     ]
 
     found_assignment = False
 
-    upcoming = []
+    upcoming: list[tuple[int, Assignment]] = []
 
     for index in range(len(state.assignments)):
         assignment = state.assignments[index]
@@ -166,11 +213,13 @@ def upcoming_assignments(state: State) -> Page:
         if assignment.completed == False:
             upcoming.append((index, assignment))
 
-    # Sorts upcoming assignments by due date, putting the earliest date first.
-    # The lambda function accesses each assignment's due date.
-    # datetime.strptime() converts the date into a format Python can compare.
+    # Sorts upcoming assignments by due date, putting the earliest first.
+    # The lambda accesses each assignment's due date.
+    # datetime.strptime converts the date into a format Python can compare.
     upcoming.sort(
-        key=lambda item: datetime.strptime(item[1].due_date, "%m/%d/%Y")
+        key=lambda item: datetime.strptime(
+            item[1].due_date, "%m/%d/%Y"
+        )
     )
 
     for index, assignment in upcoming:
@@ -180,19 +229,20 @@ def upcoming_assignments(state: State) -> Page:
         content.append("Class: " + assignment.course)
         content.append("Due Date: " + assignment.due_date)
 
-        # Creates a list of button arguments.
-        # The first value identifies the argument as assignment_index.
-        # The second value stores the assignment's position in the list.
-        # The type annotation tells Python which value types the list accepts.
-        button_arguments: list[tuple[str, str | int | float | bool | list[Any] | dict[Any, Any] | None]] = [
+        # Passes the assignment position to mark_completed.
+        button_arguments: list[tuple[
+            str,
+            str | int | float | bool | list[Any] | dict[Any, Any] | None
+        ]] = [
             ("assignment_index", index)
         ]
 
-        # Creates a button labeled "Mark Completed".
-        # When clicked, the button calls the mark_completed route.
-        # It passes the assignment's position so the correct assignment is updated.
         content.append(
-            Button("Mark Completed", "mark_completed", button_arguments)
+            Button(
+                "Mark Completed",
+                "mark_completed",
+                button_arguments
+            )
         )
 
     if found_assignment == False:
@@ -207,6 +257,8 @@ def upcoming_assignments(state: State) -> Page:
 # DISPLAYS COMPLETED ASSIGNMENTS
 @route
 def completed_assignments(state: State) -> Page:
+    """Displays assignments marked as completed."""
+
     content: list[Any] = [
         Header("Completed Assignments")
     ]
@@ -234,11 +286,13 @@ def completed_assignments(state: State) -> Page:
 # PAGE FOR CHOOSING A CLASS
 @route
 def classes(state: State) -> Page:
+    """Displays a list of classes for filtering assignments."""
+
     content: list[Any] = [
         Header("Filter Assignments by Class")
     ]
 
-    courses = []
+    courses: list[str] = []
 
     for assignment in state.assignments:
         if assignment.course not in courses:
@@ -269,6 +323,8 @@ def classes(state: State) -> Page:
 # DISPLAYS ASSIGNMENTS FROM THE SELECTED CLASS
 @route
 def filter_by_class(state: State, course: str) -> Page:
+    """Displays assignments belonging to the selected class."""
+
     state.filter_course = course
 
     content: list[Any] = [
@@ -303,6 +359,7 @@ def filter_by_class(state: State, course: str) -> Page:
 # MARKS AN ASSIGNMENT AS COMPLETED
 @route
 def mark_completed(state: State, assignment_index: int) -> Page:
+    """Marks the selected assignment as completed."""
 
     if assignment_index >= 0 and assignment_index < len(state.assignments):
         state.assignments[assignment_index].completed = True
@@ -310,6 +367,166 @@ def mark_completed(state: State, assignment_index: int) -> Page:
     return all_assignments(state)
 
 
-# START THE WEBSITE
-start_server(State([], "", "", "", ""))
+# UNIT TESTS
 
+def test_is_valid_due_date():
+    """Tests valid and invalid assignment due dates."""
+
+    assert_equals(is_valid_due_date("11/20/2026"), True)
+    assert_equals(is_valid_due_date("02/15/2026"), True)
+    assert_equals(is_valid_due_date("15/40/2026"), False)
+    assert_equals(is_valid_due_date("November 20, 2026"), False)
+    assert_equals(is_valid_due_date("11/20/26"), False)
+
+
+def test_index():
+    """Tests that the home page returns a Page."""
+
+    state = State([], "", "", "", "")
+    assert_equals(isinstance(index(state), Page), True)
+
+
+def test_add_assignment():
+    """Tests that the add assignment page returns a Page."""
+
+    state = State([], "", "", "", "")
+    assert_equals(isinstance(add_assignment(state), Page), True)
+
+
+def test_submit_assignment():
+    """Tests adding a new assignment."""
+
+    state = State([], "", "", "", "")
+
+    submit_assignment(
+        state, "Math Homework", "Math", "11/20/2026"
+    )
+
+    assert_equals(len(state.assignments), 1)
+    assert_equals(state.assignments[0].name, "Math Homework")
+    assert_equals(state.assignments[0].course, "Math")
+    assert_equals(state.assignments[0].completed, False)
+    assert_equals(state.assignment_name, "")
+
+
+def test_submit_invalid_assignment():
+    """Tests that an invalid date does not save an assignment."""
+
+    state = State([], "", "", "", "")
+
+    submit_assignment(
+        state, "Math Homework", "Math", "15/40/2026"
+    )
+
+    assert_equals(len(state.assignments), 0)
+
+
+def test_all_assignments():
+    """Tests that the all assignments page returns a Page."""
+
+    state = State([], "", "", "", "")
+    assert_equals(isinstance(all_assignments(state), Page), True)
+
+
+def test_upcoming_assignments():
+    """Tests that the upcoming assignments page returns a Page."""
+
+    state = State([], "", "", "", "")
+    assert_equals(isinstance(upcoming_assignments(state), Page), True)
+
+
+def test_completed_assignments():
+    """Tests that the completed assignments page returns a Page."""
+
+    state = State([], "", "", "", "")
+    assert_equals(isinstance(completed_assignments(state), Page), True)
+
+
+def test_classes():
+    """Tests that the classes page returns a Page."""
+
+    state = State([], "", "", "", "")
+    assert_equals(isinstance(classes(state), Page), True)
+
+
+def test_filter_by_class():
+    """Tests saving the selected class."""
+
+    state = State([], "", "", "", "")
+
+    filter_by_class(state, "Math")
+
+    assert_equals(state.filter_course, "Math")
+
+
+def test_mark_completed():
+    """Tests marking an assignment as completed."""
+
+    assignment = Assignment(
+        "Math Homework", "Math", "11/20/2026", False
+    )
+
+    state = State([assignment], "", "", "", "")
+
+    mark_completed(state, 0)
+
+    assert_equals(state.assignments[0].completed, True)
+
+
+def test_invalid_assignment_index():
+    """Tests that an invalid index does not change assignments."""
+
+    assignment = Assignment(
+        "Math Homework", "Math", "11/20/2026", False
+    )
+
+    state = State([assignment], "", "", "", "")
+
+    mark_completed(state, 10)
+
+    assert_equals(state.assignments[0].completed, False)
+
+
+def test_assignment_sorting():
+    """Tests sorting assignments by their due dates."""
+
+    assignments = [
+        Assignment("History", "History", "11/25/2026", False),
+        Assignment("Math", "Math", "11/15/2026", False),
+        Assignment("Science", "Science", "11/20/2026", False)
+    ]
+
+    upcoming = []
+
+    for index in range(len(assignments)):
+        if assignments[index].completed == False:
+            upcoming.append((index, assignments[index]))
+
+    upcoming.sort(
+        key=lambda item: datetime.strptime(
+            item[1].due_date, "%m/%d/%Y"
+        )
+    )
+
+    assert_equals(upcoming[0][1].name, "Math")
+    assert_equals(upcoming[1][1].name, "Science")
+    assert_equals(upcoming[2][1].name, "History")
+
+
+# RUN UNIT TESTS
+test_is_valid_due_date()
+test_index()
+test_add_assignment()
+test_submit_assignment()
+test_submit_invalid_assignment()
+test_all_assignments()
+test_upcoming_assignments()
+test_completed_assignments()
+test_classes()
+test_filter_by_class()
+test_mark_completed()
+test_invalid_assignment_index()
+test_assignment_sorting()
+
+
+start_server(State([], "", "", "", ""))
