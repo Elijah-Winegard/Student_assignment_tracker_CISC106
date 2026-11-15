@@ -3,7 +3,7 @@ from drafter import *
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
-from bakery import assert_equal
+
 
 
 set_website_title("Student Assignment Tracker")
