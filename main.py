@@ -514,19 +514,20 @@ def test_assignment_sorting():
 
 
 # RUN UNIT TESTS
-test_is_valid_due_date()
-test_index()
-test_add_assignment()
-test_submit_assignment()
-test_submit_invalid_assignment()
-test_all_assignments()
-test_upcoming_assignments()
-test_completed_assignments()
-test_classes()
-test_filter_by_class()
-test_mark_completed()
-test_invalid_assignment_index()
-test_assignment_sorting()
+# The website starts after the tests pass.
+if __name__ == "__main__":
+    test_is_valid_due_date()
+    test_index()
+    test_add_assignment()
+    test_submit_assignment()
+    test_submit_invalid_assignment()
+    test_all_assignments()
+    test_upcoming_assignments()
+    test_completed_assignments()
+    test_classes()
+    test_filter_by_class()
+    test_mark_completed()
+    test_invalid_assignment_index()
+    test_assignment_sorting()
 
-
-start_server(State([], "", "", "", ""))
+    start_server(State([], "", "", "", ""))
