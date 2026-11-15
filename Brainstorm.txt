@@ -1,0 +1,236 @@
+Final Project: Pick a Project
+Computer Science - Week 10
+Oct 3, 2026 - Version 0.0.2
+Please make sure to your UD email AND name is below. Unless your UD emails are
+included in this table, then you will not earn any points for this assignment when it is
+graded! Every person should submit their own individual worksheet.
+Talk about each of the questions with a friend or our LLM (or both), but make sure the
+words you enter below are yours (with the obvious exceptions notwithstanding).
+Brainstorming is best done in full sentences, and the main goal here is brainstorming.
+It's worth reviewing the information in this series of pages in the Drafter documentation
+to gain a better understanding of the process.
+Role Name Email
+Developer (You) Elijah Winegard Wineelij@udel.edu
+Friend (optional)
+Part 1: The Goal & Prior Implementations
+1. Identify the Goal: What specific goal are you trying to address? Think about
+your passions, hobbies, and academic interests. The latter are an excellent
+candidate to focus on. Some majors have suggestions listed below: these were
+provided by faculty in those departments. Other majors could consider a focus
+tied to a big final assignment in one of their recent courses in their major.
+○ Biomedical Engineering majors may consider one of the following:
+■ If you have started (or completed) the Cell/Tissue Design final
+project in BMEG100, design an organoid, which involves combining
+a cell type, biomaterial, and testing method. Have the website
+include a description and diagram of your design concept, a testing
+method, a needs statement, and an impact statement relevant to
+their organoid. Also include a link to a paper that supports your idea
+and a paragraph describing how that paper supports your design
+concept.
+■ Otherwise, create a website related to your BMEG100 Lab Report
+1, Cytoskeletal and Nuclear Staining Lab Report Guidelines, linked
+here (University of Delaware account required to access).
+○ Chemistry and Chemical Engineering majors may consider creating an
+automated chemistry assistant that takes balanced reaction equations,
+starting reactant masses, and a harvested product amount to determine
+the limiting reactant, theoretical yield, and percent yield based on
+principles from Chemistry 2e (OpenStax) — Chapter 4: Chemical
+Reactions and Stoichiometry. To avoid manually compiling atomic mass
+tables or writing custom string tokenizers, use the ChemPy library to parse
+molecular formulas into exact molecular weights and verify reaction
+stoichiometry against compound data from the NIH PubChem Database.
+The program outputs an organized breakdown of limiting reagent status,
+product yields, and remaining masses of unreacted species. Also use the
+heat of the reaction to determine if it is exothermic or endothermic, and
+compute the heat flow per mole of the product.
+○ Majors in the Electric & Computer Engineering department may
+consider a steganography project that hides messages in images, and
+then retrieves those messages from uploaded images.
+○ Mechanical Engineering majors may consider a project that somehow
+uses both the NumPy and SciPy Python libraries.
+I want to create a Student Assignment Tracker. The goal is to help students organize their
+schoolwork and keep track of upcoming assignments. Students often have assignments
+from multiple classes, so I want to create one website where they can enter assignments,
+view due dates, and track their progress.
+2. Prior Implementations: Search the internet. What existing tools or websites
+currently attempt to address it?
+There are already some websites that help students organize their school work. Some
+examples are: MyStudentLife, Todoist, Google Calendar. My website will focus on being a
+simple assignment tracker without any complicated features that can take away from user
+experience.
+3. Your Implementation: Briefly describe the legitimate purpose or functionality of
+your site. How would you want this web application to be used?
+My website will allow students to add assignments, select the class for each assignment,
+enter due dates, and mark assignments as completed. Students will also have separate
+pages to view all assignments, upcoming assignments, and completed work. The purpose is
+to make organizing schoolwork easier.
+Part 2: The Input-Process-Output (IPO) Model
+Think about the fundamental flow of your program.
+1. The Core Goal: Every program has three main phases: taking input, processing
+data, and presenting output. In one sentence, what is the ultimate goal your
+program will accomplish for the user? Be specific and use CS1 concepts.
+The goal of my program is to collect assignment information from students, store
+assignments in a list of objects, organize them by class and due date, and display their
+progress.
+2. Input: What specific information will the user need to provide to your program?
+(e.g., a city name, a numerical budget, a list of hobbies).
+Users will provide: Assignment name using a TextBox, Class name using a SelectBox, Due
+date using a TextBox, Additional assignment details using a TextArea, Completion status
+using a CheckBox.
+3. Processing: At a high level, how will the computer manipulate or evaluate that
+data? (e.g., calculate the average, filter out options that are too expensive,
+compare the input against a database).
+The program will store each assignment as an object inside a list. It will use loops to display
+assignments and if statements to check whether assignments are completed or upcoming.
+Users will also be able to filter assignments by class.
+4. Output: What will the user get back? (e.g., a recommendation, a calculated
+safety factor, a formatted schedule).
+The website will display: A list of all assignments, Upcoming assignments, Completed
+assignments, Assignments organized by class, A summary of how many assignments are
+completed and unfinished.
+Part 3: Data Abstraction
+Identify the "nouns" of your problem.
+1. Representing Reality: Abstraction is the process of representing the real world
+inside a computer by ignoring unnecessary details. What are the core "things"
+(nouns) your program needs to track? (e.g., If building a recipe app, the nouns
+are "Recipe" and "Ingredient").
+The two main things my program needs to track are:
+Assignment: Stores information about each school assignment.
+State: Stores the website's information, including the list of assignments and current user
+inputs.
+2. Identifying Properties: For the most important "thing" you listed above, what 3
+to 4 specific details do you actually need to solve your problem, and what details
+will you abstract away?
+○ Details I need: (e.g., Ingredient name, weight, cost)
+○ Details I will ignore: (e.g., Ingredient color, brand, expiration date)
+For the Assignment dataclass, I will need:
+Details I need:
+Assignment name.
+Class name.
+Due date.
+Completion status.
+Additional notes.
+Details I will ignore:
+Teacher contact information.
+Assignment file attachments.
+School location.
+Assignment submission history.
+Part 4: Challenges, AI Strategy, & Goals
+1. Difficulties: What parts of this project seem the most difficult or technically
+complex?
+Some of the most difficult parts of this project will be creating the two dataclasses,
+managing the list of assignment objects, and making sure information updates correctly
+when users add or complete assignments. Another challenge will be creating the different
+routes and making sure each page displays the correct information.
+2. Coding Strategy: If you will be using an LLM to help code, how will you ensure
+you understand the generated code and avoid "hallucinations" or "shallow
+learning" (copying without understanding)? If you won't be using an LLM to help
+code, this project might take about 4 hours a week to complete, so list each of
+the days and times in which you work on the project.
+I plan to use ChatGPT or Friends as a resource when I get stuck. I will ask for explanations
+of individual parts of the code rather than copying an entire program. I will test each function
+and route separately. I will also make sure I understand how the code works before adding
+more features. I will compare suggestions with the Drafter documentation and concepts
+covered in class.
+3. Goals: What is your ultimate goal for this project? (e.g., Impress the graders with
+a creative UI, build something I can use in my other classes, learn Drafter
+deeply).
+My main goal is to create a functioning website that meets all the project requirements. I
+want the website to have a simple design, useful features, and easy navigation.
+Part 5: Research & Brainstorming Conversation
+Have a conversation with a Generative AI tool (like ChatGPT or Claude) OR a friend
+about your project idea. Do not ask for code. Instead, use the AI/friend as a sounding
+board to research your problem.
+1. The Initial Prompt/Question: Ask the AI or your friend to help you brainstorm.
+(e.g., "I want to build a simple web tool to help students track their study hours.
+What are 3 common problems students face when tracking their time, and what
+are 3 simple features a basic tool should have?"). Paste your prompt below:
+I want to create a simple Student Assignment Tracker using Python and the Drafter library
+for my computer science final project. What are some useful features I should include? I
+also need the project to meet requirements involving two dataclasses, a list of objects,
+multiple routes, input fields, loops, and if statements. I want to keep the coding simple
+enough for an introductory Python course.
+2. The Response: Briefly summarize the best ideas the AI or your friend
+suggested. What existing solutions or prior apps did they mention?
+ChatGPT suggested creating a website where students add assignments, select a class,
+enter due dates, and mark work as completed.
+It also suggested looking at existing websites such as MyStudyLife and Todoist. These
+websites have features for organizing assignments, tasks, and deadlines.
+3. The Pushback: You must reply to the AI/friend to narrow the scope when it's
+over-ambitious. Pick the most complex feature they suggested and explain why it
+is too complicated for an introductory programming project. Ask them for a
+simpler alternative. Paste your response here:
+I think some of the suggested features could become too complicated for this project. For
+example, adding automatic reminders, calendar synchronization, and user accounts would
+require more advanced programming. I want to keep the project focused on basic
+organization concepts. What simpler features would still make the website useful?
+4. Reflection: Based on this conversation, how has your project idea changed or
+become more focused?
+After discussing the project, I decided to focus on the main assignment tracking features
+instead of trying to create a complete school management system. The website will focus on
+adding assignments, organizing them by class, displaying due dates, and tracking
+completion. This will make the project easier to develop while still meeting the required
+functionality.
+Part 6: Resource Planning
+1. What resources will you use if you get stuck?
+If I get stuck, I will use: Class notes and previous assignments, The Drafter documentation,
+The Bakery textbook, ChatGPT for explanations and debugging help, My professor and TA
+for questions about course concepts.
+2. If your LLM provides code that causes a Drafter or Bakery error, or if you run into
+a problem during deployment, what is your step-by-step debugging plan to
+resolve it?
+If my program produces an error, I will:
+● Read the error message and identify the line causing the problem
+● Check for syntax errors, incorrect variable names, and indentation.
+● Test the function separately before testing the entire website.
+● Check whether my dataclasses and state fields are being updated correctly.
+● Test each route to make sure the pages work.
+● Compare my code with the Drafter documentation.
+● Run the website again after fixing the error.
+● Test the deployed website to make sure everything works.
+Part 7: LLM Conversation
+If you used an LLM in any part of this work, copy and paste every part of that
+conversation below. Otherwise, you may be given a zero for the assignment. Obviously,
+these words will not all be yours, and this is the exception to the requirement at the top
+of this assignment that all responses be in your own words. If you did not use an LLM to
+assist you in this assignment, simply say so below.
+User: I want to create a simple Student Assignment Tracker using Python and the Drafter
+library for my computer science final project. What are some useful features I should
+include? I also need the project to meet requirements involving two dataclasses, a list of
+objects, multiple routes, input fields, loops, and if statements. I want to keep the coding
+simple enough for an introductory Python course.
+ChatGPT: A Student Assignment Tracker would be a good project. Students often have
+assignments from multiple classes and need a way to organize deadlines. Some useful
+features would include adding assignments, selecting a class, entering due dates, and
+marking assignments as completed. You could also create pages to view all assignments,
+upcoming assignments, and completed assignments. Existing websites such as
+MyStudyLife and Todoist offer similar organization features.
+User: What other features would make the website useful?
+ChatGPT: You could add a feature to filter assignments by class, display the number of
+completed and unfinished assignments, and create a page showing upcoming deadlines.
+These features would give the website more functionality while using basic Python concepts
+such as lists, loops, and if statements.
+User: I think some of the suggested features could become too complicated for this
+programming project. For example, calendar synchronization, and would require more
+advanced programming. I want to keep the project focused on basic organization concepts.
+What simpler features would still make the website useful?
+ChatGPT: I recommend keeping the project focused on adding assignments, viewing
+assignments, filtering by class, and marking assignments as completed. You could also
+have separate pages for upcoming and completed assignments. These features would
+provide useful functionality without requiring advanced programming.
+User: How should I organize the website so it meets the project requirements?
+ChatGPT: You could create seven routes: Home, Add Assignment, All Assignments,
+Upcoming Assignments, Completed Assignments, Classes, and About. You could use an
+Assignment dataclass to store each assignment and a State dataclass to store the list of
+assignments and other website information.
+User: I want the project to be manageable and make sure the website works properly.
+ChatGPT: Focus on getting the main features working first. Test each route, make sure
+assignments are stored correctly, and check that users are able to add and complete
+assignments. You can improve the design after the main functionality works.
+Part 8: Submit
+In Google docs, with this document open, please click on File > Download > Microsoft
+Word (.docx), and make sure you put that download somewhere you can find it again.
+Then, upload it to the Canvas assignment about selecting or brainstorming your final
+project.
+When you're done with this assignment, review this page of the Drafter documentation
+to better prepare for the next step.
