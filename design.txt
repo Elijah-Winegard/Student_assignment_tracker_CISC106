@@ -1,0 +1,121 @@
+Final Project Design Phase
+Computer Science - Week 11
+Oct 3, 2026 - Version 0.0.4
+________________________________________
+
+For complete instructions and project ideas, refer to the assignment in Canvas. Specifically, review the final project requirements before you continue below. If you have not reviewed the project requirements in Canvas (you might have to go to the modules view and check the current or past week's content), you will not be able to properly complete the parts below. In addition, it may be helpful to review the information on this Drafter documentation page.
+0) Project Planning and Preparation
+Successful programmers spend time planning before they begin coding. After reviewing the project requirements, answer the following questions to help guide your design and development process. 
+A.	What concepts from class or previous assignments might help you complete this project? Which programming concepts (loops, conditionals, lists, classes, etc.) do you expect to use? What programming skills do you want to improve while completing this project?
+I will use several concepts from class and previous Python assignments. These include variables, lists, loops, if statements, functions, and dataclasses. I will use a list to store Assignment objects and use a dataclass to keep track of information throughout the website. I will also use loops to display assignments and if statements to check whether assignments are completed or belong to a certain class. I want to improve my understanding of dataclasses, managing state, creating routes, and using the Drafter library to build a functioning website.
+
+B.	Which parts of the project do you expect to be the easiest for you? The hardest? Why?
+I think creating the basic layout of the website and adding text and buttons will be the easiest parts.
+
+I think the hardest parts will be creating multiple routes and making sure information transfers between pages will also be challenging because I have less experience using Drafter.
+
+
+C.	Even though you have not yet designed the final project, estimate which tasks will likely require the most time and effort? Which features or components should be implemented first? 
+I expect creating the routes, connecting the pages, and making sure the assignment information updates correctly to require the most time. Testing the website and fixing errors will also take time.
+
+I plan to work in this order:
+
+1.	Create the Assignment and State dataclasses.
+2.	Set up the basic Drafter website and navigation.
+3.	Create the page for adding assignments.
+4.	Create a page that displays all assignments using a loop.
+5.	Add pages for upcoming and completed assignments.
+6.	Add the ability to filter assignments by class.
+7.	Test every route and fix errors.
+8.	Improve the website design and prepare it for deployment.
+
+I estimate spending around 2-3 hours on the basic structure and dataclasses, 3-4 hours developing the routes and features, and another 2-3 hours testing, fixing errors, and deploying the website.
+
+
+D.	What distractions might interfere with your work and how will you minimize them? What resources will you need available while working? What questions, if any, do you still have about the assignment requirements? 
+Distractions such as my phone, other assignments, spending time with friends, and playing video games might interfere with my progress. I will minimize these distractions by setting aside specific times to work, silencing notifications, limiting gaming while working, and breaking the project into smaller tasks. I will also try to finish important parts of the project before making plans with friends.
+
+The resources I will need include class notes, previous Python assignments, the Drafter documentation, the Bakery textbook, and ChatGPT for explanations and debugging help. I will also ask my professor, TA, or classmates for help if I run into problems.
+
+One question I still have is how to properly pass information between different Drafter routes and update the State dataclass without losing previously entered assignments.
+
+
+
+1) Site Diagram
+Create a mock-up of your planned website. We suggest you make the mockup on paper, although you can also use software like PowerPoint or Slides to make a mockup. There is other design software that could also be used, but we strongly encourage you to keep it simple. Do not spend more than 15-30 minutes detailing the mock-up. Your goal should be to make a very quick and dirty diagram, to show that you have some kind of idea.
+
+We recommend drawing each page as a rectangle, and laying out the text, buttons, and other components inside. Then, use arrows to indicate links between pages. Label each page the way you will name each function, and then put labels on the arrows to indicate what the button links. Also write down any parameters that should come into the pages.
+
+In addition to the pages and routes, write down what fields your `State` will have, both their names and types. Think clearly about what data will need to be persistent across the entire website.
+
+Add photo(s) or screenshot(s) of your website mock-up and labeled diagram on the next page. 
+ 
+   2) Implementing Requirements
+This table should serve as a draft for how you will implement the requirements into your final project. You may change your ideas later on, but your final site must fulfill all the requirements.
+
+Requirement	Implementation
+Purpose/Functionality
+
+A 1-2 sentence description of the purpose or functionality of your site	The Student Assignment Tracker will help students organize school assignments in one place. Users will be able to add assignments, select their classes, enter due dates, view upcoming work, and track completed assignments.
+State Dataclass Attributes
+ 
+Minimum of 4 attributes, one of which must be a list/dict of instances of your second dataclass.
+
+Briefly describe each attribute, its type, and how it will be meaningfully modified throughout the site.	1. assignments: list[Assignment] stores all assignment objects. The list changes when users add assignments or update completion status. 
+2. assignment_name: str stores the name entered by the user. It updates when the user enters a new assignment name. 
+3. assignment_course: str stores the selected class. It updates when the user selects a class. 
+4. assignment_due_date: str stores the due date entered by the user. It updates when the user enters a date. 
+5. filter_course: str stores the selected class filter. It updates when users choose a class to view.
+Second Dataclass
+
+Your second dataclass, including its attributes, their types, and how they will be meaningfully modified (if they are modified)	Assignment will represent an individual school assignment. Its attributes are 
+name: str, the assignment name
+course: str, the class it belongs to
+due_date: str, its due date
+completed: bool, whether the assignment is finished. 
+The completion field changes when the user marks an assignment as completed.
+Routes (minimum 7) 
+
+The names of your route functions	1. index() displays the home page. 
+2. add_assignment() displays the assignment form. 
+3. submit_assignment() saves a new assignment. 
+4. all_assignments() displays every assignment. 
+5. upcoming_assignments() displays unfinished assignments and their due dates. 
+6. completed_assignments() displays completed assignments. 
+7. classes() displays the class filter. 
+8. filter_by_class(course) displays assignments for the selected class. 
+9. mark_completed(index) updates an assignment's completion status. 
+10. about() displays information about the website.
+Pages (minimum 5)
+
+A brief description of the pages in your site	1. Home: Main navigation page. 
+2. Add Assignment: Form for entering assignment information. 
+3. All Assignments: Displays every saved assignment. 
+4. Upcoming Assignments: Displays unfinished assignments and due dates. 
+5. Completed Assignments: Displays finished work. 
+6. Classes: Allows users to filter assignments by class. 
+7. About: Explains the purpose of the website.
+User Input (minimum 3)
+
+Description of user input components (TextBox, TextArea, CheckBox, or SelectBox) and their purposes
+
+For more information on these input types, see Drafter Documentation.
+1. TextBox: Allows users to enter an assignment name. 
+2. SelectBox: Allows users to select the class for an assignment. 
+3. TextBox: Allows users to enter a due date in YYYY-MM-DD format. 
+These inputs provide the information needed to create Assignment objects.
+If Statements (minimum 3)
+Brief description of what will be evaluated in your if statements and how they will meaningfully change the logic of the site	1. Check whether the assignment name, class, and due date are empty before saving. 
+2. Check whether an assignment is completed to determine which page should display it. 
+3. Check whether the selected class matches an assignment's course when filtering assignments. 
+4. Check whether an assignment is unfinished before displaying it on the upcoming assignments page.
+Loop (minimum 1)
+This loop must iterate over the list/dict of dataclass instances in your State attribute.
+Description of this loop and why it is meaningful to the site	A loop will iterate through the assignments list inside State. It will display each assignment's name, class, due date, and completion status. 
+Additional loops will filter and display assignments based on their completion status or selected class.
+LLM Conversation
+If you used an LLM in any part of this work, copy and paste every part of that conversation below. Otherwise, you may be given a zero for the assignment. Obviously, these words will not all be yours, and this is the exception to the requirement at the top of this assignment that all responses be in your own words. If you did not use an LLM to assist you in this assignment, simply say so below.
+NO LLM
+
+Final Submission
+When you are finished, download this file as a Word Document (docx) and upload the file to the appropriate assignment on Canvas.
