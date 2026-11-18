@@ -158,15 +158,44 @@ def all_assignments(state: State) -> Page:
         for index in range(len(state.assignments)):
             assignment = state.assignments[index]
 
-            content.append("\nAssignment: " + assignment.name)
-            content.append("Class: " + assignment.course)
-            content.append("Due Date: " + assignment.due_date)
-
+            # Displays assignment information in green if completed.
+            # Displays assignment information in red if incomplete.
             if assignment.completed == True:
-                content.append("Status: Completed")
-
+                assignment_color = "green"
+                status = "Completed"
             else:
-                content.append("Status: Incomplete")
+                assignment_color = "red"
+                status = "Incomplete"
+
+            content.append(
+                change_color(
+                    "Assignment: " + assignment.name + "\n",
+                    assignment_color
+                )
+            )
+
+            content.append(
+                change_color(
+                    "Class: " + assignment.course + "\n",
+                    assignment_color
+                )
+            )
+
+            content.append(
+                change_color(
+                    "Due Date: " + assignment.due_date + "\n",
+                    assignment_color
+                )
+            )
+
+            content.append(
+                change_color(
+                    "Status: " + status,
+                    assignment_color
+                )
+            )
+
+            if assignment.completed == False:
 
                 # Creates a list of button arguments.
                 # The first value identifies the argument name.
